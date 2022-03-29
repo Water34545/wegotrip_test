@@ -1,17 +1,7 @@
-import {useEffect} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {getStat} from '../../redux/slices/statSlice';
-import {selectStat} from '../../redux/selectors/selectSelector';
+import { StatCharts } from '../pages/StatCharts/StatCharts';
 
 const App = () => {
-  const stat = useSelector(selectStat);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getStat());
-  }, [dispatch]);
-  
-  return <p>hi there</p>
+  return <StatCharts/>
 }
 
 export default App;

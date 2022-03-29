@@ -1,15 +1,15 @@
-interface StatStateData {
+interface Purchases {
   date: string,
   value: number
 }
 
+interface ViewsToClicks {
+  date: string,
+  view: number,
+  click: number
+}
+
 export interface StatState {
-  purchases: [
-    {data: StatStateData[]},
-    {data: StatStateData[]},
-  ] | [],
-  views_to_clicks: [
-    {data: StatStateData[]},
-    {data: StatStateData[]},
-  ] | []
+  purchases: Purchases[],
+  views_to_clicks: ViewsToClicks[]
 };
