@@ -1,4 +1,4 @@
-import { StatCharts } from '../pages/StatCharts/StatCharts';
+import {StatCharts} from '../../pages/StatCharts/StatCharts';
 
 const App = () => {
   return <StatCharts/>

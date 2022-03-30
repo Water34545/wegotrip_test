@@ -3,9 +3,10 @@ import {useDispatch, useSelector} from 'react-redux';
 import {DatePicker} from 'antd';
 import 'antd/dist/antd.css';
 import moment from 'moment';
-import {getStat} from '../../../redux/slices/statSlice';
-import {selectStat} from '../../../redux/selectors/selectSelector';
+import {getStat} from '../../redux/slices/statSlice';
+import {selectStat} from '../../redux/selectors/selectSelector';
 import {RangeValue} from 'rc-picker/lib/interface';
+import BarChart from '../../components/BarChart/BarChart';
 
 const {RangePicker} = DatePicker;
 
@@ -23,17 +24,17 @@ export const StatCharts = () => {
   }, [dispatch]);
 
   const purchases = firstDateRange && secondDateRange ? [
-    stat.purchases.filter(item => moment(item.date).isSameOrAfter(firstDateRange[0]) && moment(item.date).isSameOrBefore(firstDateRange[1])),
-    stat.purchases.filter(item => moment(item.date).isSameOrAfter(secondDateRange[0]) && moment(item.date).isSameOrBefore(secondDateRange[1])), 
+    stat.purchases.filter(item => item.date.isSameOrAfter(firstDateRange[0]) && item.date.isSameOrBefore(firstDateRange[1])),
+    stat.purchases.filter(item => item.date.isSameOrAfter(secondDateRange[0]) && item.date.isSameOrBefore(secondDateRange[1])), 
   ] : null;
 
   const views_to_clicks = firstDateRange && secondDateRange ? [
-    stat.views_to_clicks.filter(item => moment(item.date).isSameOrAfter(firstDateRange[0]) && moment(item.date).isSameOrBefore(firstDateRange[1])),
-    stat.views_to_clicks.filter(item => moment(item.date).isSameOrAfter(secondDateRange[0]) && moment(item.date).isSameOrBefore(secondDateRange[1])), 
+    stat.views_to_clicks.filter(item => item.date.isSameOrAfter(firstDateRange[0]) && item.date.isSameOrBefore(firstDateRange[1])),
+    stat.views_to_clicks.filter(item => item.date.isSameOrAfter(secondDateRange[0]) && item.date.isSameOrBefore(secondDateRange[1])), 
   ] : null;
 
   const disabledDate = (current: any) => {
-    const isAvailable = moment(current).isSameOrAfter(startDate) && moment(current).isSameOrBefore(endDate);
+    const isAvailable = current.isSameOrAfter(startDate) && current.isSameOrBefore(endDate);
     return !isAvailable;
   };
 
@@ -69,14 +70,6 @@ export const StatCharts = () => {
       onChange={val => updateValues(val, setSecondDateRange, firstDateRange, setFirstDateRange)}
       format={dateFormat}
     />
-    {purchases && <div style={{display: "flex"}}>
-      <ul>{purchases[0].map(item => <li key={item.date}>{item.date} - {item.value}</li>)}</ul>
-      <ul>{purchases[1].map(item => <li key={item.date}>{item.date} - {item.value}</li>)}</ul>
-    </div>}
-
-    {views_to_clicks && <div style={{display: "flex"}}>
-      <ul>{views_to_clicks[0].map(item => <li key={item.date}>{item.date} - {item.view} - {item.click}</li>)}</ul>
-      <ul>{views_to_clicks[1].map(item => <li key={item.date}>{item.date} - {item.view} - {item.click}</li>)}</ul>
-    </div>}
+    {purchases ? <BarChart data={purchases as any} range={[firstDateRange, secondDateRange]}/> : <p>Выберете диапазон сравнения</p>}
   </div>
 }

@@ -1,9 +1,9 @@
-interface Purchases {
+export interface Purchases {
   date: string,
   value: number
 }
 
-interface ViewsToClicks {
+export interface ViewsToClicks {
   date: string,
   view: number,
   click: number
