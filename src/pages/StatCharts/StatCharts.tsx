@@ -1,14 +1,14 @@
 import {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {DatePicker} from 'antd';
+import {Container, Grid} from '@mui/material';
 import 'antd/dist/antd.css';
 import moment from 'moment';
+import S from './StatCharts.module.scss';
 import {getStat} from '../../redux/slices/statSlice';
 import {selectStat} from '../../redux/selectors/selectSelector';
 import {RangeValue} from 'rc-picker/lib/interface';
 import BarChart from '../../components/BarChart/BarChart';
-
-const {RangePicker} = DatePicker;
+import DataFilter from './DataFilter/DataFilter';
 
 export const StatCharts = () => {
   const stat = useSelector(selectStat);
@@ -17,7 +17,6 @@ export const StatCharts = () => {
   const dispatch = useDispatch();
   const [firstDateRange, setFirstDateRange] = useState<RangeValue<moment.Moment> | null>(null);
   const [secondDateRange, setSecondDateRange] = useState<RangeValue<moment.Moment> | null>(null);
-  const dateFormat = 'YYYY-MM-DD';
 
   useEffect(() => {
     dispatch(getStat());
@@ -32,11 +31,6 @@ export const StatCharts = () => {
     stat.views_to_clicks.filter(item => item.date.isSameOrAfter(firstDateRange[0]) && item.date.isSameOrBefore(firstDateRange[1])),
     stat.views_to_clicks.filter(item => item.date.isSameOrAfter(secondDateRange[0]) && item.date.isSameOrBefore(secondDateRange[1])), 
   ] : null;
-
-  const disabledDate = (current: any) => {
-    const isAvailable = current.isSameOrAfter(startDate) && current.isSameOrBefore(endDate);
-    return !isAvailable;
-  };
 
   const updateValues = (
     value: RangeValue<moment.Moment>, 
@@ -54,22 +48,44 @@ export const StatCharts = () => {
 
   if(!stat.purchases[0]) return <p>Loading...</p>
 
-  return <div>
-    <p>StatCharts</p>
-    <RangePicker
-      defaultPickerValue={[moment(startDate, dateFormat), moment(startDate, dateFormat)]}
-      value={firstDateRange}
-      disabledDate={disabledDate}
-      onChange={val => updateValues(val, setFirstDateRange, secondDateRange, setSecondDateRange)}
-      format={dateFormat}
-    />
-    <RangePicker
-      defaultPickerValue={[moment(startDate, dateFormat), moment(startDate, dateFormat)]}
-      value={secondDateRange}
-      disabledDate={disabledDate}
-      onChange={val => updateValues(val, setSecondDateRange, firstDateRange, setFirstDateRange)}
-      format={dateFormat}
-    />
-    {purchases ? <BarChart data={purchases as any} range={[firstDateRange, secondDateRange]}/> : <p>Выберете диапазон сравнения</p>}
-  </div>
+  return <Container>
+    <Grid container spacing={3} className={S.main} justifyContent="flex-end">
+      <DataFilter
+        startDate={startDate}
+        endDate={endDate}
+        firstDateRange={firstDateRange}
+        secondDateRange={secondDateRange}
+        updateValues={updateValues}
+        setFirstDateRange={setFirstDateRange}
+        setSecondDateRange={setSecondDateRange}
+      />
+    {purchases && views_to_clicks ? 
+      <>
+        <BarChart 
+          label="Label"
+          data={purchases} 
+          symbol={'₽'}
+        /> 
+        <BarChart 
+          label="Label"
+          data={purchases} 
+          symbol={'₽'}
+        /> 
+        <BarChart 
+          label="Label"
+          data={views_to_clicks} 
+          symbol={'%'}
+        /> 
+        <BarChart 
+          label="Label"
+          data={views_to_clicks} 
+          symbol={'%'}
+        /> 
+      </> : 
+        <Grid item md={12}>
+          <p>Выберете диапазон сравнения</p>
+        </Grid>
+      }
+    </Grid>
+  </Container>
 }

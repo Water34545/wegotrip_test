@@ -1,4 +1,5 @@
 import {Tooltip} from 'chart.js';
+import S from './BarChart.module.scss';
 
 declare module 'chart.js' {
   interface TooltipPositionerMap {
@@ -12,9 +13,10 @@ Tooltip.positioners.tooltipPositioner = (elements, eventPosition) => {
 
 const dateFormat = 'DD MMMM YYYY';
 
-export const getOptions = (data: any) => ({
+export const getOptions = (data: any, symbol: string) => ({
   responsive: true,
   grouped: false,
+  maintainAspectRatio: false,
   scales: {
     x: {display: false},
     y: {display: false}
@@ -34,7 +36,7 @@ export const getOptions = (data: any) => ({
           return data[context.datasetIndex][context.dataIndex].date.format(dateFormat);
         },
         label: (context: {parsed: {y: number}}) => {
-          return `${context.parsed.y}₽`;
+          return context.parsed.y+symbol;
         }
       },
       external: (context: { tooltip: any; chart: { canvas: { getBoundingClientRect: () => any; }; }; }) => {
@@ -42,7 +44,8 @@ export const getOptions = (data: any) => ({
 
         if (!tooltipEl) {
           tooltipEl = document.createElement('div');
-           tooltipEl.id = 'chartjs-tooltip';
+          tooltipEl.id = 'chartjs-tooltip';
+          tooltipEl.className = S.tooltip;
           tooltipEl.innerHTML = '<table></table>';
           document.body.appendChild(tooltipEl);
         }

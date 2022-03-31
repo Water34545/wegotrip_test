@@ -1,7 +1,9 @@
 import {StatCharts} from '../../pages/StatCharts/StatCharts';
 
 const App = () => {
-  return <StatCharts/>
+  return <>
+    <StatCharts/>
+  </>
 }
 
 export default App;
