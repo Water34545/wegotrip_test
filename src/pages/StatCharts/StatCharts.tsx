@@ -3,14 +3,16 @@ import {useDispatch, useSelector} from 'react-redux';
 import {Container, Grid} from '@mui/material';
 import 'antd/dist/antd.css';
 import moment from 'moment';
+import {useTranslation} from 'react-i18next';
+import {RangeValue} from 'rc-picker/lib/interface';
 import S from './StatCharts.module.scss';
 import {getStat} from '../../redux/slices/statSlice';
 import {selectStat} from '../../redux/selectors/selectSelector';
-import {RangeValue} from 'rc-picker/lib/interface';
 import BarChart from '../../components/BarChart/BarChart';
 import DataFilter from './DataFilter/DataFilter';
 
 export const StatCharts = () => {
+  const {t} = useTranslation();
   const stat = useSelector(selectStat);
   const startDate = stat.purchases[0]?.date || null;
   const endDate = stat.purchases[stat.purchases.length-1]?.date || null;
@@ -62,28 +64,28 @@ export const StatCharts = () => {
     {purchases && views_to_clicks ? 
       <>
         <BarChart 
-          label="Label"
+          label={t('statCharts.sales')}
           data={purchases} 
-          symbol={'₽'}
+          symbol={t('statCharts.currency')}
         /> 
         <BarChart 
-          label="Label"
+          label={t('statCharts.balance')}
           data={purchases} 
-          symbol={'₽'}
+          symbol={t('statCharts.currency')}
         /> 
         <BarChart 
-          label="Label"
+          label={t('statCharts.viewsVsClicks')}
           data={views_to_clicks} 
-          symbol={'%'}
+          symbol={t('statCharts.persent')}
         /> 
         <BarChart 
-          label="Label"
+          label={t('statCharts.clicksVSSales')}
           data={views_to_clicks} 
-          symbol={'%'}
+          symbol={t('statCharts.persent')}
         /> 
       </> : 
         <Grid item md={12}>
-          <p>Выберете диапазон сравнения</p>
+          <p>{t('statCharts.chooseDates')}</p>
         </Grid>
       }
     </Grid>

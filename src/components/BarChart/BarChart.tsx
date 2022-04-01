@@ -10,6 +10,7 @@ import {
 import {Bar} from 'react-chartjs-2';
 import moment from 'moment';
 import {Grid} from '@mui/material';
+import {useTranslation} from "react-i18next";
 import {getOptions} from './options';
 import S from './BarChart.module.scss';
 import {getCx} from '../../utils/cx';
@@ -42,6 +43,7 @@ interface BarChartProps {
 }
 
 const BarChart: React.FC<BarChartProps> = ({label, data, symbol}) => {
+  const {t} = useTranslation();
   const options = getOptions(data, symbol);
   const multiplier = symbol === '%' ? data[0].length*0.1 : 0.1;
   const firstSum = Math.floor(data[0].reduce((sum, item) => sum + item.value, 0)/multiplier)/10;
@@ -87,8 +89,11 @@ const BarChart: React.FC<BarChartProps> = ({label, data, symbol}) => {
     <div className={S.chart}>
       <div className={S.chartTitle}>{label}</div>
       <div className={S.chartRow}>
-        <div className={S.chartSum}>{firstSum}{symbol}<span>{increase > 0 ? '+' : ''}{increase}%</span></div>
-        <div className={S.chartOldSum}>{secondSum}{symbol}</div>
+        <div className={S.chartSum}>
+          {firstSum.toLocaleString('ru-RU')}{symbol}
+          <span>{increase > 0 ? '+' : ''}{increase}%</span>
+        </div>
+        <div className={S.chartOldSum}>{secondSum.toLocaleString('ru-RU')}{symbol}</div>
       </div>
       {firstSubSum && secondSubSum && <div className={S.chartRow}>
         <div className={S.chartSubSum}>{firstSubSum}</div>
