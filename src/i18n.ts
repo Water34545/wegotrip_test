@@ -4,6 +4,7 @@ import {initReactI18next} from "react-i18next";
 const resources = {
   ru: {
     translation: {
+      'loading': 'Загрузка...',
       'statCharts': {
         'chooseDates': 'Выберете диапазон сравнения',
         'with': 'c',

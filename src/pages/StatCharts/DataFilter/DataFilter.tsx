@@ -35,7 +35,7 @@ const DataFilter: React.FC<DataFilterProps> = (props) => {
   };
 
   return <>
-    <Grid item xs={12} sm={4} md={3}>
+    <Grid item xs={12} sm={4} md={3} className={S.dataFilterDateRange}>
       <ConfigProvider locale={locale}>
         <RangePicker
           defaultPickerValue={[moment(startDate, dateFormat), moment(startDate, dateFormat)]}
@@ -49,7 +49,7 @@ const DataFilter: React.FC<DataFilterProps> = (props) => {
     <Grid item xs={12} sm={2} md={1}>
       <div className={S.dataFilterText}>{t('statCharts.with')}</div>
     </Grid>
-    <Grid item xs={12} sm={4} md={3}>
+    <Grid item xs={12} sm={4} md={3} className={S.dataFilterDateRange}>
       <ConfigProvider locale={locale}>
         <RangePicker
           defaultPickerValue={[moment(startDate, dateFormat), moment(startDate, dateFormat)]}

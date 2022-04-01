@@ -14,7 +14,6 @@
   border-radius: 8px;
 
   &Title {
-    font-weight: 400;
     font-size: 12px;
     line-height: 266%;
     text-transform: uppercase;
@@ -29,7 +28,6 @@
   &Sum {
     display: flex;
     align-items: center;
-    font-weight: 400;
     font-size: 34px;
     color: $blue;
 
@@ -49,7 +47,6 @@
   }
 
   &SubSum {
-    font-weight: 400;
     font-size: 12px;
   }
 
